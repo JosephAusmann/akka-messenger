@@ -1,8 +1,8 @@
-package eventTest
+package eventGroupTest
 
 import com.typesafe.config.{Config, ConfigFactory}
 
-object EventTestConfig {
+object EventGroupTestConfig {
   val config = ConfigFactory.parseString(
     """
       |akka {

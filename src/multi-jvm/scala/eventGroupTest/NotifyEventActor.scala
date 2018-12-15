@@ -1,8 +1,9 @@
-package eventTest
+package eventGroupTest
 
 import akka.actor.{Actor, Address}
 import akka.cluster.Cluster
 import akka.messenger.api.Connector
+
 import scala.concurrent.duration._
 
 class NotifyEventActor extends Actor {

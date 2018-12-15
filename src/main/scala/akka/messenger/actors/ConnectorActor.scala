@@ -77,8 +77,8 @@ private final class ConnectorActor(private val thisServiceName: String) extends 
       }
       mediator ! Send(path = s"/user/${akka.messenger.api.systemName}", msg = notifyEvent.copy(requestId = Some(thisRequestId)), localAffinity = false)
 
-    case SubscribeToServiceEvents(fromServiceName) =>
-      mediator ! Subscribe(topic = fromServiceName, self)
+    case SubscribeToServiceEvents(fromServiceName, group) =>
+      mediator ! Subscribe(topic = fromServiceName, group.map(g => s"$thisServiceName-$g"), self)
 
     case UnsubscribeFromServiceEvents(fromServiceName) =>
       mediator ! Unsubscribe(topic = fromServiceName, self)

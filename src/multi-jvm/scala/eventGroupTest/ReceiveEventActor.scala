@@ -1,11 +1,15 @@
-package eventTest
+package eventGroupTest
 
-import akka.actor.{Actor, Address}
+import akka.actor.{Actor, Address, Props}
 import akka.cluster.Cluster
 import akka.messenger.api.Connector
 import scala.concurrent.duration._
 
-class NotifyEventActor extends Actor {
+object ReceiveEventActor {
+  def props(id: Int): Props = Props(new ReceiveEventActor(id))
+}
+
+class ReceiveEventActor(id: Int) extends Actor {
 
   var connector: Option[Connector] = None
   var cluster: Option[Cluster] = None
@@ -18,14 +22,17 @@ class NotifyEventActor extends Actor {
     }
 
     context.system.scheduler.scheduleOnce(15.seconds) {
-      connector = Some(Connector.make(s"notify-svc")(context.system))
-    }
+      connector = Some(Connector.make("receive-svc")(context.system))
 
-    context.system.scheduler.scheduleOnce(20.seconds) {
       connector.foreach { c =>
-        for (i <- 0 to 10) {
-          c.notifyEvent(CounterEvent(counter = i))
+        c.installEventHandlerFunction {
+          case CounterEvent(counter) =>
+            println(s"receive-svc-$id - Counter Event: $counter")
+          case _ =>
+            println(s"receive-svc-$id - Unknown event")
         }
+
+        c.subscribeToServiceEvents(serviceName = "notify-svc", group = Some("receive-svc-group"))
       }
     }
 
@@ -34,7 +41,11 @@ class NotifyEventActor extends Actor {
     }
   }
 
-  override def receive: Receive = {
-    case _: Any =>
+  override def postStop(): Unit = {
   }
+
+  override def receive: Receive = {
+    case _ =>
+  }
+
 }

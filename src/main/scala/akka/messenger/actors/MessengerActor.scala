@@ -24,6 +24,7 @@ private final class MessengerActor extends Actor {
     case answerCommand: AnswerCommand =>
       answerCommand.toNodeRef.foreach(_ ! answerCommand)
     case notifyEvent: NotifyEvent =>
-      mediator ! Publish(topic = notifyEvent.fromServiceName, msg = notifyEvent)
+      mediator ! Publish(topic = notifyEvent.fromServiceName, msg = notifyEvent, sendOneMessageToEachGroup = false)
+      mediator ! Publish(topic = notifyEvent.fromServiceName, msg = notifyEvent, sendOneMessageToEachGroup = true)
   }
 }

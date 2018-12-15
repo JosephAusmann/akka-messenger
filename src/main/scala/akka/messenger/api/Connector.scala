@@ -31,8 +31,8 @@ final class Connector private(private val thisServiceName: String,
     connectorRef ! NotifyEvent(fromServiceName = thisServiceName, event = event)
   }
 
-  def subscribeToServiceEvents(serviceName: String): Unit = {
-    connectorRef ! SubscribeToServiceEvents(serviceName)
+  def subscribeToServiceEvents(serviceName: String, group: Option[String] = None): Unit = {
+    connectorRef ! SubscribeToServiceEvents(serviceName, group)
   }
 
   def unsubscribeFromServiceEvents(serviceName: String): Unit = {
