@@ -43,7 +43,7 @@ sbt "multi-jvm:run queryTest.QueryTest"
 ```
 Ask a Query with a Connector and use a Partial Function within a Future to map the Event.
 ```
-connector.askQuery(toServiceName = "bar-svc", FooQuery(message).map {
+connector.askQuery(toServiceName = "bar-svc", FooQuery(message)).map {
   case BarEvent(message) =>
     println(message)
   case _ =>
@@ -75,7 +75,7 @@ sbt "multi-jvm:run commandTest.CommandTest"
 ```
 Tell a Command with a Connector and use a Partial Function within a Future to map the Event.
 ```
-connector.tellCommand(toServiceName = "bar-svc", FooCommand(message).map {
+connector.tellCommand(toServiceName = "bar-svc", FooCommand(message)).map {
   case BarEvent(message) =>
     println(s"foo-svc - Bar event: $message")
   case _ =>

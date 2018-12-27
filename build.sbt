@@ -1,8 +1,29 @@
 name := "akka-messenger"
 
-organization := "orion.io"
+organization := "io.orion"
 
-version := "0.1.0"
+homepage := Some(url("https://github.com/orion-io/akka-messenger"))
+scmInfo := Some(ScmInfo(url("https://github.com/orion-io/akka-messenger.git"),
+                            "git@github.com:orion-io/akka-messenger.git"))
+
+developers := List(
+  Developer(
+    "JosephAusmann",
+    "Joseph Ausmann",
+    "joseph.ausmann.17@gmail.com",
+    url("https://github.com/JosephAusmann")))
+
+licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0"))
+publishMavenStyle := true
+
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
+version := "0.1.1"
 
 scalaVersion := "2.12.8"
 
@@ -14,9 +35,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
   "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion)
-
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
 lazy val root = (project in file("."))
   .enablePlugins(MultiJvmPlugin)
