@@ -1,6 +1,6 @@
 name := "akka-messenger"
 
-organization := "io.orion"
+organization := "com.github.orion-io"
 
 homepage := Some(url("https://github.com/orion-io/akka-messenger"))
 scmInfo := Some(ScmInfo(url("https://github.com/orion-io/akka-messenger.git"),
